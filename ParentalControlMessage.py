@@ -7,7 +7,6 @@ class ParentalControlMessage:
     def getPayload(self):
         return self.payload
 
-        
     def setNumDevices(self, numberOfDevices):
         self.payload['pcblockdev'] = numberOfDevices
     
@@ -16,32 +15,16 @@ class ParentalControlMessage:
         self.payload['pcblockpolicy' + deviceNumber] = deviceName
         self.payload['hnd_time_status' + deviceNumber] = blockStatus
         self.payload['dev_name_' + deviceNumber] = deviceName
+        
+    def addBlockedUrl(self, deviceNumber, urlToBlock):
+        originalUrlList = self.payload['pcblockurl_policy' + deviceNumber]
+        newUrlList = originalUrlList + urlToBlock + "<&nbsp;>"
+        self.payload['pcblockurl_policy' + deviceNumber] = newUrlList
+        
+    def printPayload(self):
+        for key in self.payload:
+            print(key + ": " + str(self.payload[key]))
     
-    # blockStatus: '0' is unblocked, '1' is always blocked, '2' is specific times blocked
-    def setDevice0BlockStatus(self, deviceName, blockStatus):
-        self.payload['pcblockpolicy0'] = deviceName
-        self.payload['hnd_time_status0'] = blockStatus
-        self.payload['dev_name_0'] = deviceName
-        self.payload['hnd_time_status'] = blockStatus
-        
-    # blockStatus: '0' is unblocked, '1' is always blocked, '2' is specific times blocked
-    def setDevice1BlockStatus(self, deviceName, blockStatus):
-        self.payload['pcblockpolicy1'] = deviceName
-        self.payload['hnd_time_status1'] = blockStatus
-        self.payload['dev_name_1'] = deviceName
-        
-    # blockStatus: '0' is unblocked, '1' is always blocked, '2' is specific times blocked
-    def setDevice2BlockStatus(self, deviceName, blockStatus):
-        self.payload['pcblockpolicy2'] = deviceName
-        self.payload['hnd_time_status2'] = blockStatus
-        self.payload['dev_name_2'] = deviceName
-        
-    # blockStatus: '0' is unblocked, '1' is always blocked, '2' is specific times blocked
-    def setDevice3BlockStatus(self, deviceName, blockStatus):
-        self.payload['pcblockpolicy3'] = deviceName
-        self.payload['hnd_time_status3'] = blockStatus
-        self.payload['dev_name_3'] = deviceName
-        
     def initPayload(self):
         self.payload = { 'submit_button': 'PCAR',
                     'change_action': '',
@@ -152,11 +135,11 @@ class ParentalControlMessage:
                     'hnd_wd_end_time13': '', 
                     'setdevnameflag': '0',
                     #'dev_mac_0': '64:b0:a6:9f:6b:c4',        
-                    'dev_mac_0': '',        
-                    'dev_mac_1': '', 
-                    'dev_mac_2': '', 
-                    'dev_mac_3': '', 
-                    'dev_mac_4': '', 
+                    'dev_mac_0': '64:b0:a6:9f:6b:c4',        
+                    'dev_mac_1': '34:17:eb:c2:be:e9', 
+                    'dev_mac_2': '20:ee:28:7d:c1:b4', 
+                    'dev_mac_3': '90:60:f1:3d:c0:3a', 
+                    'dev_mac_4': '24:f6:77:84:67:1f', 
                     'dev_mac_5': '', 
                     'dev_mac_6': '', 
                     'dev_mac_7': '', 
@@ -218,10 +201,10 @@ class ParentalControlMessage:
                     'dev_name_31': '',                 
                     'start': '',                 
                     'tmsss_enabled': '1',
-                    #'dev_list': '64:b0:a6:9f:6b:c4',
-                    'dev_list': '',
-                    'hnd_time_status': '',
-                    'url0': 'yourbutt.com',             
+                    'dev_list': '64:b0:a6:9f:6b:c4',
+                    #'dev_list': '',
+                    'hnd_time_status': '0',
+                    'url0': '',             
                     'url1': '', 
                     'url2': '', 
                     'url3': '', 
